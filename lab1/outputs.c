@@ -12,7 +12,16 @@ void print_complex(complex number)
     else printf("z = %f + (%f)i\n", number.x_point, number.y_point);
 }
 
-void undefined()
+void print_cmplx_arr(complex_array array)
 {
-    printf("<undefined>\n");
+    for (int i = 0; i < array.capacity; i++)
+    {
+        printf("[%d]: ", i + 1);  
+        print_complex(array.data[i]);
+    } 
+}
+
+void print_flt_arr(float_array array)
+{
+    for (int i = 0; i < array.capacity; i++) printf("[%d]: %f\n", i + 1, array.data[i]);
 }
