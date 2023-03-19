@@ -6,34 +6,26 @@
 #include "outputs.h"
 #include "dynarr.h"
 
-complex test(complex element)
+bool func(float element)
 {
-    return find_mul_cmplx(element, (complex){.x_point = 123, .y_point = 321});
-}
-
-float func(float element)
-{
-    return element * 0.01;
+    if (element > 0.05) return true;
+    return false;
 }
 
 int main()
 {
-    float_array test1 = create_flt_arr(5);
-    for (int i = 0; i < test1.capacity; i++) test1.data[i] = (i + ((1.) / (i + 1)));
-    float_array test2 = create_flt_arr(5);
-    for (int i = 0; i < test2.capacity; i++) test2.data[i] = (i + ((1.) / (i + 1)));
+    float_array data = create_flt_arr(100);
 
+    for (int i = 0; i < data.capacity; i++) data.data[i] = (1. / (i + 1));
 
-    float_array test3 = cancat_and_del_flt(test1, &test2);
+    int test = where_flt_count(func, data);
 
-    float_array test4 = map_and_del_flt(func, &test3);
-    
-    //print_flt_arr(test3);
+    print_flt_arr(data);
     printf("\n");
-    print_flt_arr(test4);
+    if (!test) printf("ERROR\n");
+    printf("%d\n", test);
 
-    delete_data(test4.data);
-    //delete_data(test3.data);
-    delete_data(test1.data);
+    //delete_data(test.data);
+    delete_data(data.data);
     return 0;
 }

@@ -19,4 +19,8 @@ complex find_mul_cmplx(complex number1, complex number2);
 
 complex find_div_cmplx(complex number1, complex number2);
 
+int cmp_complex(complex *number1, complex *number2);
+
+int cmpr_complex(complex *number1, complex *number2);
+
 #endif

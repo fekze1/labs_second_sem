@@ -50,4 +50,12 @@ float_array map_flt(float (*func)(float element), float_array array);
 
 float_array map_and_del_flt(float (*func)(float element), float_array *array);
 
+complex_array where_cmplx_arr(bool (*func)(complex element), complex_array array);
+
+int where_cmplx_count(bool (*func)(complex element), complex_array array);
+
+float_array where_flt_arr(bool (*func)(float element), float_array array);
+
+int where_flt_count(bool (*func)(float element), float_array array);
+
 #endif

@@ -164,3 +164,47 @@ float_array map_and_del_flt(float (*func)(float element), float_array *array)
     delete_data(array->data);
     return new_array;
 }
+
+complex_array where_cmplx_arr(bool (*func)(complex element), complex_array array)
+{
+    complex_array new_array = create_cmplx_arr(0);
+    for (int i = 0; i < array.capacity; i++)
+    {
+        if (func(array.data[i])) add_complex(&new_array, array.data[i]);
+    }
+
+    return new_array;
+}
+
+int where_cmplx_count(bool (*func)(complex element), complex_array array)
+{
+    int count = 0;
+    for (int i = 0; i < array.capacity; i++)
+    {
+        if (func(array.data[i])) count++;
+    }
+
+    return count;
+}
+
+float_array where_flt_arr(bool (*func)(float element), float_array array)
+{
+    float_array new_array = create_flt_arr(0);
+    for (int i = 0; i < array.capacity; i++)
+    {
+        if (func(array.data[i])) add_float(&new_array, array.data[i]);
+    }
+
+    return new_array;
+}
+
+int where_flt_count(bool (*func)(float element), float_array array)
+{
+    int count = 0;
+    for (int i = 0; i < array.capacity; i++)
+    {
+        if (func(array.data[i])) count++;
+    }
+
+    return count;
+}
