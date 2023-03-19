@@ -14,18 +14,15 @@ bool func(float element)
 
 int main()
 {
-    float_array data = create_flt_arr(100);
+    complex_array data = create_cmplx_arr(100);
 
-    for (int i = 0; i < data.capacity; i++) data.data[i] = (1. / (i + 1));
+    for (int i = 0; i < data.capacity; i++) data.data[i] = create_complex(i, i - 1);
 
-    int test = where_flt_count(func, data);
+    print_cmplx_arr(data);
 
-    print_flt_arr(data);
-    printf("\n");
-    if (!test) printf("ERROR\n");
-    printf("%d\n", test);
 
-    //delete_data(test.data);
     delete_data(data.data);
+    scanf("%*d");
+    remove("OUTPUT.txt");
     return 0;
 }
