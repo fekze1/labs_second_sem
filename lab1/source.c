@@ -1,38 +1,52 @@
 #include "source.h"
 #include <stdlib.h>
-#include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
+#include <math.h>
 
-bool input_str(char **string) 
+void print_int(void *value)
 {
-	*string = (char *)malloc(1);
-	char buffer[81];
-	int n, str_length = 0;
-	**string = '\0';
-	
-	do
-	{
-		n = scanf("%80[^\n]", buffer);
-		
-		if(n < 0)
-		{
-			free(*string);
-			*string = NULL;
-			continue;
-		}
-
-		if(n == 0) scanf("%*c");
-
-		else 
-		{
-			str_length += strlen(buffer);
-			*string = (char *)realloc(*string, str_length + 1);
-			*string = strcat(*string, buffer);
-		}	
-	} while(n > 0);
-
-	if (!(*string)) return false;
-	
-	return true;
+    node *node_val = (node *)value;
+    printf("%d\n", *(int *)node_val->data);
 }
+
+node *new_int(void *value)
+{
+    int *value_int_ptr = (int *)value;
+
+    node *new_node = (node *)malloc(sizeof(node));
+
+    new_node->node_info = &int_info;
+    new_node->data = (void *)value_int_ptr;
+
+    return new_node;
+}
+
+void print_float(void *value)
+{
+    node *node_val = (node *)value;
+    printf("%f\n", *(float *)node_val->data);
+}
+
+node *new_float(void *value)
+{
+    float *value_float_ptr = (float *)value;
+
+    node *new_node = (node *)malloc(sizeof(node));
+
+    new_node->node_info = &float_info;
+    new_node->data = (void *)value_float_ptr;
+
+    return new_node;
+}
+
+info int_info = 
+{
+    .print = &print_int,
+    .new = &new_int
+};
+
+info float_info = 
+{
+    .print = &print_float,
+    .new = &new_float
+};
