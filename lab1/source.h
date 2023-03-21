@@ -3,22 +3,24 @@
 
 #include "array.h"
 
-typedef struct node_tmp node;
+typedef struct node node;
 
 typedef struct
 {
     void (*print)(void *value);
-    struct node_tmp *(*new)(void *value);
-}info;
+    struct node *(*new)(void *value);
+}class;
 
-extern info int_info;
+extern class complex_class;
 
-extern info float_info;
+extern class float_class;
 
-struct node_tmp
+struct node
 {
-    info *node_info;
+    class *node_info;
     void *data;
 };
+
+char *input_string();
 
 #endif

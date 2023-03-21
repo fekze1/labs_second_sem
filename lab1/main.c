@@ -6,10 +6,10 @@
 
 int main()
 {  
-    float value = 10.123;
-    node *test = float_info.new(&value);
+    char *test = input_string();
 
-    test->node_info->print(test);
+    if (test) printf("%s\n", test);
+    if (!test) printf("ERROR\n");
 
     free(test);
     return 0;
