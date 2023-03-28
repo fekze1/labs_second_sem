@@ -15,8 +15,12 @@ typedef struct
 
 typedef struct
 {   
+    int element_size;
+    int count;
+    int capacity;
+
     void (*print)(struct node_array *array);
-    struct node_array *(*new)();
+    //struct node_array *(*new)();
     void (*delete)(struct node_array *array);
     void (*add)(struct node_array *array, node *element);
     void (*delete_by_id)(struct node_array *array, int id);
@@ -30,14 +34,11 @@ struct node
 
 struct node_array
 {
-    int element_size;
-    int count;
-    int capacity;
-
     node_array_class *array_info;
     node **data;
 };
 
-extern node_array_class array_class;
+node_array *new_array();
+//extern node_array_class array_class;
 
 #endif

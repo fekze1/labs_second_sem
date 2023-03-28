@@ -7,9 +7,9 @@
 
 int main()
 {   
-    node_array *test = array_class.new();
+    node_array *test = new_array();
 
-    node_array *test2 = array_class.new();
+    node_array *test2 = new_array();
     
     float flt = 1.2345;
     complex cmplx = create_complex(1.234, 5.678);
