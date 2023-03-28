@@ -4,56 +4,44 @@
 #include <math.h>
 #include <string.h>
 
-char *int_to_str(int number)
+complex create_complex(float x_point, float y_point)
 {
-    unsigned int length = log10(number) + 1;
-    if (!length) length = 1;
-
-    int string_length = length + 1;
-    char *string = (char *)calloc(string_length, sizeof(char));
-
-    int i = 0;
-    do
+    return (complex)
     {
-        int last_digit = number % 10;
-        string[string_length - i - 2] = last_digit + 48;
-        number /= 10;
-        i++;
-    } while (number > 0);
-
-    return string;
+        .x_point = x_point,
+        .y_point = y_point
+    };
 }
 
-char *flt_to_str(float number)
+void print_complex(complex number)
 {
-    int integer = (int)number;
-    int decimal = (number - (int)number) * 100000;
-
-    char *integer_str = int_to_str(integer);
-    char *decimal_str = int_to_str(decimal);
-
-    int new_len = (int)(strlen(integer_str) + strlen(decimal_str)) + 2;
-
-    char *string = (char *)calloc(new_len, sizeof(char));
-
-    for (int i = 0; i < (int)(strlen(integer_str)); i++)
-    {
-        string[i] = integer_str[i];
-    }
-    string[(int)(strlen(integer_str))] = '.';
-    for (int i = (int)(strlen(integer_str)) + 1, j = 0; i < new_len; i++, j++)
-    {
-        string[i] = decimal_str[j];
-    }
-
-    free(integer_str);
-    free(decimal_str);
-    
-    return string;
+    if (number.x_point == 0 && number.y_point == 0) printf("z = 0\n");
+    else if (number.x_point == 0 && number.y_point != 0) printf("z = %fi\n", number.y_point);
+    else if (number.x_point != 0 && number.y_point == 0) printf("z = %f\n", number.x_point);
+    else printf("z = %f + (%f)i\n", number.x_point, number.y_point);
 }
 
-// void print_complex(complex number)
-// {
-//     char *output = to_string(number);
-//     puts(output);
-// }
+void print_complex_node(node *value)
+{
+    complex value_cmplx = *(complex *)value->data;
+    print_complex(value_cmplx);
+}
+
+node *new_complex_node(void *value)
+{
+    complex *value_cmplx_ptr = (complex *)value;
+
+    node *new_node = (node *)malloc(sizeof(node));
+
+    new_node->node_info = &complex_class;
+    new_node->data = (void *)value_cmplx_ptr;
+
+    return new_node;
+}
+
+value_class complex_class = 
+{
+    .size = (int)sizeof(complex),
+    .print = &print_complex_node,
+    .new = &new_complex_node
+};
