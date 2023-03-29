@@ -1,12 +1,15 @@
 #include "source.h"
 #include "array.h"
 #include "complex.h"
+#include "float.h"
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 void set_array_class(node_array_class **class);
 
-node_array *new_array()
+node_array *create_array()
 {
     node **new_data = (node **)calloc(1, sizeof(node *));
     node_array *array = (node_array *)calloc(1, sizeof(node_array));
@@ -15,7 +18,6 @@ node_array *new_array()
     set_array_class(&new_class);
     
     array->data = new_data;
-
     array->array_info = new_class;
 
     return array;
@@ -69,6 +71,71 @@ void delete_node_by_id (node_array *array, int id)
     if (!array->array_info->capacity) array->array_info->element_size = 0;
 }
 
+void map_array(node_array *array, node *(*func)(node *element))
+{
+    for (int i = 0; i < array->array_info->capacity; i++)
+    {
+        array->data[i] = func(array->data[i]);
+    }
+}
+
+node *create_copy(node *element)
+{
+    node *copy;
+
+    switch (element->node_info->size)
+    {
+        case sizeof(complex):
+            complex *new_cmplx = (complex *)element->data;
+            copy = complex_class.new((void *)new_cmplx);
+        break;
+        case sizeof(float):
+            float *new_flt = (float *)element->data;
+            copy = float_class.new((void *)new_flt);
+        break;
+    }
+    copy->node_info = element->node_info;
+
+    return copy;
+}
+
+node_array *where_array(node_array *array, bool (*func)(node *element))
+{
+    node_array *new_array = create_array();
+
+    for (int i = 0; i < array->array_info->capacity; i++)
+    {
+        if (func(array->data[i]))
+        {
+            node *element_copy = create_copy(array->data[i]);
+            new_array->array_info->add(new_array, element_copy);
+        }
+    }
+
+    return new_array;
+}
+
+bool test_func(node *element)
+{
+    switch (element->node_info->size)
+    {
+        case sizeof(complex):
+            if (((complex *)element->data)->x_point + ((complex *)element->data)->y_point > 1)
+            {
+                return true;
+            }
+            return false;
+        break;
+        case sizeof(float):
+            if (*(float *)element->data > 10)
+            {
+                return true;
+            }
+            return false;
+        break;
+    }
+}
+
 void set_array_class(node_array_class **class)
 {
     (*class)->count = 0;
@@ -78,11 +145,6 @@ void set_array_class(node_array_class **class)
     (*class)->delete = &delete_array;
     (*class)->delete_by_id = &delete_node_by_id;
     (*class)->print = &print_array;
+    (*class)->map = &map_array;
+    (*class)->where = &where_array;
 }
-// node_array_class array_class = 
-// {
-//     .print = &print_array,
-//     .delete = &delete_array,
-//     .add = &add_node,
-//     .delete_by_id = &delete_node_by_id
-// };

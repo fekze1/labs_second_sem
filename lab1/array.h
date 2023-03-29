@@ -2,6 +2,7 @@
 #define ARRAY_H
 
 #include "source.h"
+#include <stdbool.h>
 
 typedef struct node node;
 typedef struct node_array node_array;
@@ -20,10 +21,11 @@ typedef struct
     int capacity;
 
     void (*print)(struct node_array *array);
-    //struct node_array *(*new)();
     void (*delete)(struct node_array *array);
     void (*add)(struct node_array *array, node *element);
     void (*delete_by_id)(struct node_array *array, int id);
+    void (*map)(struct node_array *array, node *(*func)(node *element));
+    struct node_array *(*where)(struct node_array *array, bool (*func)(node *element));
 }node_array_class;
 
 struct node
@@ -38,7 +40,9 @@ struct node_array
     node **data;
 };
 
-node_array *new_array();
-//extern node_array_class array_class;
+node_array *create_array();
+
+bool test_func(node *element);
+
 
 #endif
