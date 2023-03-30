@@ -12,7 +12,7 @@ typedef struct
     float y_point;
 }complex;
 
-complex create_complex(float x_point, float y_point);
+complex *create_complex(float x_point, float y_point);
 
 void print_complex(complex number);
 

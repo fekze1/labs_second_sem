@@ -7,6 +7,14 @@
 #include <stdio.h>
 #include <math.h>
 
+float *create_float(float value)
+{
+    float *flt = (float *)malloc(sizeof(float));
+    *flt = value;
+
+    return flt;
+}
+
 void print_float_node(node *value)
 {
     printf("%f\n", *(float *)value->data);

@@ -24,7 +24,7 @@ typedef struct
     void (*delete)(struct node_array *array);
     void (*add)(struct node_array *array, node *element);
     void (*delete_by_id)(struct node_array *array, int id);
-    void (*map)(struct node_array *array, node *(*func)(node *element));
+    struct node_array *(*map)(struct node_array *array, node *(*func)(node *element));
     struct node_array *(*where)(struct node_array *array, bool (*func)(node *element));
 }node_array_class;
 
@@ -44,5 +44,6 @@ node_array *create_array();
 
 bool test_func(node *element);
 
+node *test_map(node *element);
 
 #endif

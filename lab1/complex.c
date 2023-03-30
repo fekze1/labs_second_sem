@@ -4,13 +4,13 @@
 #include <math.h>
 #include <string.h>
 
-complex create_complex(float x_point, float y_point)
-{
-    return (complex )
-    {
-        .x_point = x_point,
-        .y_point = y_point
-    };
+complex *create_complex(float x_point, float y_point)
+{   
+    complex *cmplx = (complex *)malloc(sizeof(complex));
+    cmplx->x_point = x_point;
+    cmplx->y_point = y_point;
+
+    return cmplx;
 }
 
 void print_complex(complex number)
