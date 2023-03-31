@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 
 void set_array_class(node_array_class **class);
 
@@ -216,20 +217,60 @@ bool test_func(node *element)
     }
 }
 
-node *test_map(node *element)
+node *abs_val_map(node *element)
+{
+    float *abs_val = (float *)malloc(sizeof(float));
+
+    switch (element->node_info->size)
+    {
+    case sizeof(complex):
+        *abs_val = sqrt(pow(((complex *)element->data)->x_point, 2) + pow(((complex *)element->data)->y_point, 2));
+    break;
+    
+    case sizeof(float):
+        *abs_val = sqrt(pow(*(float *)element->data, 2));
+    break;
+    }
+    
+    free(element->data);
+    free(element->node_info);
+
+    element->node_info = &float_class;
+    element->data = (void *)abs_val;
+
+    return element;
+}
+
+node *double_val_map(node *element)
 {
     switch (element->node_info->size)
     {
     case sizeof(complex):
-        ((complex *)element->data)->x_point++;
-        ((complex *)element->data)->y_point++;
+        ((complex *)element->data)->x_point = 2 * ((complex *)element->data)->x_point;
+        ((complex *)element->data)->y_point = 2 * ((complex *)element->data)->y_point;
     break;
     
     case sizeof(float):
-        (*(float *)element->data)++;
+        *(float *)element->data = 2 * *(float *)element->data;
     break;
     }
+    return element;
+}
 
+node *square_val_map(node *element)
+{
+    switch (element->node_info->size)
+    {
+    case sizeof(complex):
+        float prev_x = (*(complex *)element->data).x_point;
+        ((complex *)element->data)->x_point = pow((*(complex *)element->data).x_point, 2) - pow((*(complex *)element->data).y_point, 2);
+        ((complex *)element->data)->y_point = 2 * ((complex *)element->data)->y_point * prev_x;
+    break;
+    
+    case sizeof(float):
+        *(float *)element->data =  pow((*(float *)element->data), 2);
+    break;
+    }
     return element;
 }
 

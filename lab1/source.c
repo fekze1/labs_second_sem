@@ -110,6 +110,7 @@ void delete_database(node_array **database, int count)
         printf("test\n");
         database[i]->array_info->delete(database[i]);
     }
+    printf("\n");
 
     free(database);
 }
@@ -142,7 +143,7 @@ void print_database(node_array **database, int count)
 
 void print_menu()
 {
-    printf("\n\t\t\t\033[40m\033[92m      LIST OF COMMANDS    \033[0m\n");
+    printf("\n\t\t\t\033[40m\033[92m     LIST OF COMMANDS     \033[0m\n");
 	printf("\t\t\t\033[40m\033[92m1. ADD ARRAY              \033[0m\n");
 	printf("\t\t\t\033[40m\033[92m2. ADD ELEMENT TO ARRAY   \033[0m\n");
 	printf("\t\t\t\033[40m\033[92m3. DELETE ELEMENT IN ARRAY\033[0m\n");
@@ -155,9 +156,22 @@ void print_menu()
 	printf("\t\t\t\033[40m\033[92m10. EXIT                  \033[0m\n");
 }
 
+void print_map_menu()
+{
+    printf("\n\t\t    \033[40m\033[92m     LIST OF MAPPING COMMANDS     \033[0m\n");
+	printf("\t\t    \033[40m\033[92m1. FIND ABSOLUTE VALUE            \033[0m\n");
+	printf("\t\t    \033[40m\033[92m2. DOUBLE VALUE                   \033[0m\n");
+	printf("\t\t    \033[40m\033[92m3. FIND VALUES SQUARE             \033[0m\n");
+}
+
 void command_input()
 {
     printf("Input command: ");
+}
+
+void map_command_input()
+{
+    printf("Input mapping command: ");
 }
 
 void ID_input()
@@ -266,6 +280,12 @@ void added_array()
 {
     system("clear");
     printf("\t\t\t\033[92m ARRAY SUCCESFULLY ADDED\033[0m\n");
+}
+
+void mapped_array()
+{
+    system("clear");
+    printf("\t\t\t\033[92m ARRAY SUCCESFULLY MAPPED\033[0m\n");
 }
 
 void cated_array()
@@ -770,6 +790,90 @@ void status()
             break;
 
             case 8:
+                if (!count)
+                {   
+                    null_database();
+                    break;
+                }
+
+                print_database(database, count);
+                ID_input();
+
+                char *map_ID_str = input_string();
+                if (!string_check(map_ID_str, database, count))
+                {
+                    error_completion();
+                    exit(1);
+                }
+
+                int ID_map = atoi(map_ID_str);
+
+                while(ID_map <= 0 || ID_map > count)
+                {
+                    free(map_ID_str);
+                    invalid_ID_input();
+
+                    map_ID_str = input_string();
+                    if (!string_check(map_ID_str, database, count))
+                    {   
+                        error_completion();
+                        exit(1);
+                    }
+                    ID_map = atoi(map_ID_str);
+                }
+
+                free(map_ID_str);
+
+                print_map_menu();
+
+                map_command_input();
+
+                char *map_command_str = input_string();
+                if (!string_check(map_command_str, database, count))
+                {
+                    error_completion();
+                    exit(1);
+                }
+
+                int command_map = atoi(map_command_str);
+
+                switch (command_map)
+                {
+                case 1:
+                    database = add_array(database, &count);
+
+                    database[count - 1]->array_info->delete(database[count - 1]);
+
+                    database[count - 1] = database[ID_map - 1]->array_info->map(database[ID_map - 1], abs_val_map);
+
+                    mapped_array();
+                break;
+
+                case 2:
+                    database = add_array(database, &count);
+
+                    database[count - 1]->array_info->delete(database[count - 1]);
+
+                    database[count - 1] = database[ID_map - 1]->array_info->map(database[ID_map - 1], double_val_map);
+
+                    mapped_array();
+                break;
+
+                case 3:
+                    database = add_array(database, &count);
+
+                    database[count - 1]->array_info->delete(database[count - 1]);
+
+                    database[count - 1] = database[ID_map - 1]->array_info->map(database[ID_map - 1], square_val_map);
+
+                    mapped_array();
+                break;
+                
+                default:
+                break;
+                }
+                free(map_command_str);
+
             break;
 
             case 9:

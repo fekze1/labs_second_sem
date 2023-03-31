@@ -44,9 +44,11 @@ struct node_array
 
 node_array *create_array();
 
-bool test_func(node *element);
+node *abs_val_map(node *element);
 
-node *test_map(node *element);
+node *double_val_map(node *element);
+
+node *square_val_map(node *element);
 
 int float_cmp(node *element1, node *element2);
 
