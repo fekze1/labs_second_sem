@@ -50,6 +50,20 @@ node *double_val_map(node *element);
 
 node *square_val_map(node *element);
 
+bool poistive_where(node *element);
+
+bool negative_where(node *element);
+
+bool integers_where(node *element);
+
+bool first_quad_where(node *element);
+
+bool second_quad_where(node *element);
+
+bool third_quad_where(node *element);
+
+bool fourth_quad_where(node *element);
+
 int float_cmp(node *element1, node *element2);
 
 int float_cmpr(node *element1, node *element2);

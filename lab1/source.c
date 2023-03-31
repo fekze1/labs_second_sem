@@ -1,5 +1,6 @@
 #include "source.h"
 #include "complex.h"
+#include "outputs.h"
 #include "array.h"
 #include "float.h"
 #include <stdlib.h>
@@ -139,171 +140,6 @@ void print_database(node_array **database, int count)
         }
         printf("\tCOUNT: %d\n", database[i]->array_info->count);
     }
-}
-
-void print_menu()
-{
-    printf("\n\t\t\t\033[40m\033[92m     LIST OF COMMANDS     \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m1. ADD ARRAY              \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m2. ADD ELEMENT TO ARRAY   \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m3. DELETE ELEMENT IN ARRAY\033[0m\n");
-	printf("\t\t\t\033[40m\033[92m4. PRINT ARRAY            \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m5. PRINT ALL ARRAYS       \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m6. CANCATINATE TWO ARRAYS \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m7. SORT ARRAY             \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m8. MAP ARRAY              \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m9. USE WHERE IN ARRAY     \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m10. EXIT                  \033[0m\n");
-}
-
-void print_map_menu()
-{
-    printf("\n\t\t    \033[40m\033[92m     LIST OF MAPPING COMMANDS     \033[0m\n");
-	printf("\t\t    \033[40m\033[92m1. FIND ABSOLUTE VALUE            \033[0m\n");
-	printf("\t\t    \033[40m\033[92m2. DOUBLE VALUE                   \033[0m\n");
-	printf("\t\t    \033[40m\033[92m3. FIND VALUES SQUARE             \033[0m\n");
-}
-
-void command_input()
-{
-    printf("Input command: ");
-}
-
-void map_command_input()
-{
-    printf("Input mapping command: ");
-}
-
-void ID_input()
-{
-    printf("Input array ID: ");
-}
-
-void first_ID_input()
-{
-    printf("Input first array ID: ");
-}
-
-void second_ID_input()
-{
-    printf("Input second array ID: ");
-}
-
-void element_ID_input()
-{
-    printf("Input element ID: ");
-}
-
-void type_input()
-{
-    printf("Input element type (complex/float): ");
-}
-
-void float_value_input()
-{
-    printf("Input element float value: ");
-}
-
-void complex_xpoint_value_input()
-{
-    printf("Input element float X value: ");
-}
-
-void complex_ypoint_value_input()
-{
-    printf("Input element float Y value: ");
-}
-
-void invalid_ID_input()
-{
-    printf("Invalid ID input, try again: ");
-}
-
-void invalid_type_input()
-{
-    printf("Invalid type input, try again (complex/float): ");
-}
-
-void invalid_float_input()
-{
-    printf("Invalid float input, try again: ");
-}
-
-void invalid_command()
-{
-    system("clear");
-    printf("\t\t\t\033[91m     INVALID COMMAND\033[0m\n");
-}
-
-void error_completion()
-{
-    system("clear");
-    printf("\t\t\t\033[91mPROGRAM ENDS WITH ERROR\033[0m\n");
-}
-
-void wrong_type()
-{
-    system("clear");
-    printf("\t\t\033[91m  ELEMENT TYPE DOESN'T MATCH ARRAY TYPE\033[0m\n");
-}
-
-void wrong_arrays()
-{
-    system("clear");
-    printf("\t\t\033[91m        ARRAYS TYPES DOESN'T MATCH \033[0m\n");
-}
-
-void null_database()
-{
-    system("clear");
-    printf("\t\t\t\033[91mYOU DON'T HAVE ANY ARRAYS\033[0m\n");
-}
-
-void complex_comparation()
-{
-    system("clear");
-    printf("\t\t\t\033[91mYOU CAN'T SORT COMPLEX ARRAY\033[0m\n");
-}
-
-
-void input_direction()
-{
-    printf("Input direction (increase/decrease): ");
-}
-
-void invalid_direction()
-{
-    printf("Invalid input direction, try again (increase/decrease): ");
-}
-
-void added_array()
-{
-    system("clear");
-    printf("\t\t\t\033[92m ARRAY SUCCESFULLY ADDED\033[0m\n");
-}
-
-void mapped_array()
-{
-    system("clear");
-    printf("\t\t\t\033[92m ARRAY SUCCESFULLY MAPPED\033[0m\n");
-}
-
-void cated_array()
-{
-    system("clear");
-    printf("\t\t\033[92m   ARRAYS SUCCESFULLY CANCATINATED\033[0m\n");
-}
-
-void added_element()
-{
-    system("clear");
-    printf("\t\t\t\033[92m ELEMENT SUCCESFULLY ADDED\033[0m\n");
-}
-
-void completion()
-{
-    system("clear");
-    printf("\t\t\t\033[92m   PROGRAM COMPLETION\033[0m\n");
 }
 
 bool input_check(char *input)
@@ -836,6 +672,7 @@ void status()
                 }
 
                 int command_map = atoi(map_command_str);
+                free(map_command_str);
 
                 switch (command_map)
                 {
@@ -872,11 +709,166 @@ void status()
                 default:
                 break;
                 }
-                free(map_command_str);
 
             break;
 
             case 9:
+                if (!count)
+                {   
+                    null_database();
+                    break;
+                }
+
+                print_database(database, count);
+                ID_input();
+
+                char *where_ID_str = input_string();
+                if (!string_check(where_ID_str, database, count))
+                {
+                    error_completion();
+                    exit(1);
+                }
+
+                int ID_where = atoi(where_ID_str);
+
+                while(ID_where <= 0 || ID_where > count)
+                {
+                    free(where_ID_str);
+                    invalid_ID_input();
+
+                    where_ID_str = input_string();
+                    if (!string_check(where_ID_str, database, count))
+                    {   
+                        error_completion();
+                        exit(1);
+                    }
+                    ID_where = atoi(where_ID_str);
+                }
+
+                free(where_ID_str);
+
+                print_where_menu();
+
+                where_command_input();
+
+                char *where_command_str = input_string();
+                if (!string_check(where_command_str, database, count))
+                {
+                    error_completion();
+                    exit(1);
+                }
+
+                int command_where = atoi(where_command_str);
+
+                switch (command_where)
+                {
+                case 1:
+                    if (database[ID_where - 1]->array_info->element_size == (int)sizeof(float))
+                    {
+                        database = add_array(database, &count);
+
+                        database[count - 1]->array_info->delete(database[count - 1]);
+
+                        database[count - 1] = database[ID_where - 1]->array_info->where(database[ID_where - 1], poistive_where);
+
+                        filtered_array();
+                    }
+                    else if (database[ID_where - 1]->array_info->element_size == (int)sizeof(complex))
+                    {
+                        complex_positive();
+                    }
+                    else
+                    {
+                        null_array();
+                    }
+                break;
+
+                case 2:
+                    if (database[ID_where - 1]->array_info->element_size == (int)sizeof(float))
+                    {
+                        database = add_array(database, &count);
+
+                        database[count - 1]->array_info->delete(database[count - 1]);
+
+                        database[count - 1] = database[ID_where - 1]->array_info->where(database[ID_where - 1], negative_where);
+
+                        filtered_array();
+                    }
+                    else if (database[ID_where - 1]->array_info->element_size == (int)sizeof(complex))
+                    {
+                        complex_negative();
+                    }
+                    else
+                    {
+                        null_array();
+                    }
+                break;
+
+                case 3:
+                    if (database[ID_where - 1]->array_info->element_size == (int)sizeof(float))
+                    {
+                        database = add_array(database, &count);
+
+                        database[count - 1]->array_info->delete(database[count - 1]);
+
+                        database[count - 1] = database[ID_where - 1]->array_info->where(database[ID_where - 1], integers_where);
+
+                        filtered_array();
+                    }
+                    else if (database[ID_where - 1]->array_info->element_size == (int)sizeof(complex))
+                    {
+                        complex_integers();
+                    }
+                    else
+                    {
+                        null_array();
+                    }
+                break;
+
+                case 4:
+                    database = add_array(database, &count);
+
+                    database[count - 1]->array_info->delete(database[count - 1]);
+
+                    database[count - 1] = database[ID_where - 1]->array_info->where(database[ID_where - 1], first_quad_where);
+
+                    filtered_array();
+                break;
+
+                case 5:
+                    database = add_array(database, &count);
+
+                    database[count - 1]->array_info->delete(database[count - 1]);
+
+                    database[count - 1] = database[ID_where - 1]->array_info->where(database[ID_where - 1], second_quad_where);
+
+                    filtered_array();
+                break;
+
+                case 6:
+                    database = add_array(database, &count);
+
+                    database[count - 1]->array_info->delete(database[count - 1]);
+
+                    database[count - 1] = database[ID_where - 1]->array_info->where(database[ID_where - 1], third_quad_where);
+
+                    filtered_array();
+                break;
+
+                case 7:
+                    database = add_array(database, &count);
+
+                    database[count - 1]->array_info->delete(database[count - 1]);
+
+                    database[count - 1] = database[ID_where - 1]->array_info->where(database[ID_where - 1], fourth_quad_where);
+
+                    filtered_array();
+                break;
+                
+                default:
+                break;
+                }
+                free(where_command_str);
             break;
 
             case 10:

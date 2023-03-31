@@ -1,6 +1,7 @@
 #include "source.h"
 #include "array.h"
 #include "complex.h"
+#include "outputs.h"
 #include "float.h"
 #include <stdio.h>
 #include <string.h>
@@ -120,7 +121,8 @@ node_array *where_array(node_array *array, bool (*func)(node *element))
         if (func(array->data[i]))
         {
             node *element_copy = create_copy(array->data[i]);
-            new_array->array_info->add(new_array, element_copy);
+            
+            if (func(element_copy)) new_array->array_info->add(new_array, element_copy);
         }
     }
 
@@ -233,7 +235,6 @@ node *abs_val_map(node *element)
     }
     
     free(element->data);
-    free(element->node_info);
 
     element->node_info = &float_class;
     element->data = (void *)abs_val;
@@ -272,6 +273,100 @@ node *square_val_map(node *element)
     break;
     }
     return element;
+}
+
+bool poistive_where(node *element)
+{
+    if (*(float *)element->data > 0) return true;
+    return false;
+}
+
+bool negative_where(node *element)
+{
+    if (*(float *)element->data < 0) return true;
+    return false;
+}
+
+bool integers_where(node *element)
+{
+    if (*(float *)element->data ==  *(int *)element->data) return true;
+    return false;
+}
+
+bool first_quad_where(node *element)
+{
+    switch (element->node_info->size)
+    {
+    case sizeof(complex):
+        if (((complex *)element->data)->x_point >= 0 && ((complex *)element->data)->y_point >= 0)
+        {
+            return true;
+        }
+        return false;
+    break;
+    
+    case sizeof(float):
+        if (*(float *)element->data >= 0) return true;
+        return false;
+    break;
+    }
+}
+
+bool second_quad_where(node *element)
+{
+    switch (element->node_info->size)
+    {
+    case sizeof(complex):
+        if (((complex *)element->data)->x_point <= 0 && ((complex *)element->data)->y_point >= 0)
+        {
+            return true;
+        }
+        return false;
+    break;
+    
+    case sizeof(float):
+        if (*(float *)element->data <= 0) return true;
+        return false;
+    break;
+    }
+}
+
+bool third_quad_where(node *element)
+{
+    switch (element->node_info->size)
+    {
+    case sizeof(complex):
+        if (((complex *)element->data)->x_point <= 0 && ((complex *)element->data)->y_point <= 0)
+        {
+            return true;
+        }
+        return false;
+    break;
+    
+    case sizeof(float):
+        if (*(float *)element->data <= 0) return true;
+        return false;
+    break;
+    }
+}
+
+bool fourth_quad_where(node *element)
+{
+    switch (element->node_info->size)
+    {
+    case sizeof(complex):
+        if (((complex *)element->data)->x_point >= 0 && ((complex *)element->data)->y_point <= 0)
+        {
+            return true;
+        }
+        return false;
+    break;
+    
+    case sizeof(float):
+        if (*(float *)element->data >= 0) return true;
+        return false;
+    break;
+    }
 }
 
 void set_array_class(node_array_class **class)
