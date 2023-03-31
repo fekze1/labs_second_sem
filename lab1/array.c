@@ -25,9 +25,10 @@ node_array *create_array()
 
 void print_array (node_array *array)
 {
-    if (!array->array_info->capacity) printf("EMPTY ARRAY\n");
+    if (!array->array_info->capacity) printf("\tEMPTY ARRAY\n");
     for (int i = 0; i < array->array_info->capacity; i++)
-    {
+    {   
+        printf("\t[%d]: ", i + 1);
         array->data[i]->node_info->print(array->data[i]);
     }
 }
@@ -130,7 +131,7 @@ node_array *cancat_arrays(node_array *array1, node_array *array2)
     node_array *cancated_array = create_array();
 
     for(int i = 0; i < array1->array_info->capacity; i++)
-    {
+    {   
         node *element_copy = create_copy(array1->data[i]);
         cancated_array->array_info->add(cancated_array, element_copy);
     }
