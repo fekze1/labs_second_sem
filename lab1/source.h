@@ -5,4 +5,6 @@
 
 char *input_string();
 
+void status();
+
 #endif

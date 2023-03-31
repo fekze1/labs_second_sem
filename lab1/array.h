@@ -26,6 +26,8 @@ typedef struct
     void (*delete_by_id)(struct node_array *array, int id);
     struct node_array *(*map)(struct node_array *array, node *(*func)(node *element));
     struct node_array *(*where)(struct node_array *array, bool (*func)(node *element));
+    struct node_array *(*cancat)(struct node_array *array1, struct node_array *array2);
+    void (*sort)(struct node_array *array, int (*comparator)(node *element1, node *element2));
 }node_array_class;
 
 struct node
@@ -45,5 +47,9 @@ node_array *create_array();
 bool test_func(node *element);
 
 node *test_map(node *element);
+
+int float_cmp(node *element1, node *element2);
+
+int float_cmpr(node *element1, node *element2);
 
 #endif

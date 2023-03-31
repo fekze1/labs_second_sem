@@ -125,6 +125,75 @@ node_array *where_array(node_array *array, bool (*func)(node *element))
     return new_array;
 }
 
+node_array *cancat_arrays(node_array *array1, node_array *array2)
+{
+    node_array *cancated_array = create_array();
+
+    for(int i = 0; i < array1->array_info->capacity; i++)
+    {
+        node *element_copy = create_copy(array1->data[i]);
+        cancated_array->array_info->add(cancated_array, element_copy);
+    }
+
+    for(int i = 0; i < array2->array_info->capacity; i++)
+    {
+        node *element_copy = create_copy(array2->data[i]);
+        cancated_array->array_info->add(cancated_array, element_copy);
+    }
+
+    return cancated_array;
+}
+
+int get_gap(int gap)
+{
+	gap = gap * 10 / 13;
+	if (gap < 1) return 1;
+	return gap;
+}
+
+void swap_nodes(node *element1, node *element2)
+{
+    float *data = (float *)element1->data;
+
+    element1->data = element2->data;
+    element2->data = (void *)data;
+}
+
+int float_cmp(node *element1, node *element2)
+{
+    if (*(float *)element1->data > *(float *)element2->data) return 1;
+    else if (*(float *)element1->data < *(float *)element2->data) return -1;
+    return 0;
+}
+
+
+int float_cmpr(node *element1, node *element2)
+{
+    if (*(float *)element1->data > *(float *)element2->data) return -1;
+    else if (*(float *)element1->data < *(float *)element2->data) return 1;
+    return 0;
+}
+
+void comb_sort(node_array *array, int (*comparator)(node *element1, node *element2))
+{
+    int gap = array->array_info->capacity;
+	int flag = 1;
+
+	while(gap != 1 || flag == 1)
+	{
+		gap = get_gap(gap);
+		flag = 0;
+
+		for (int i = 0; i < (array->array_info->capacity - gap); i++)
+		{
+			if (comparator(array->data[i], array->data[i + gap]) == 1)
+			{
+				swap_nodes(array->data[i], array->data[i + gap]);
+			}
+		}
+	}
+}
+
 bool test_func(node *element)
 {
     switch (element->node_info->size)
@@ -174,4 +243,6 @@ void set_array_class(node_array_class **class)
     (*class)->print = &print_array;
     (*class)->map = &map_array;
     (*class)->where = &where_array;
+    (*class)->cancat = &cancat_arrays;
+    (*class)->sort = &comb_sort;
 }
