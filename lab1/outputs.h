@@ -7,6 +7,8 @@ void print_map_menu();
 
 void print_where_menu();
 
+void print_error();
+
 void command_input();
 
 void map_command_input();
@@ -29,35 +31,7 @@ void complex_xpoint_value_input();
 
 void complex_ypoint_value_input();
 
-void invalid_ID_input();
-
-void invalid_type_input();
-
-void invalid_float_input();
-
-void invalid_command();
-
-void error_completion();
-
-void wrong_type();
-
-void wrong_arrays();
-
-void null_database();
-
-void complex_comparation();
-
-void null_array();
-
-void complex_positive();
-
-void complex_negative();
-
-void complex_integers();
-
 void input_direction();
-
-void invalid_direction();
 
 void added_array();
 

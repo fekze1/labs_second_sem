@@ -176,7 +176,8 @@ void status()
 
         if (!string_check(command_str, database, count))
         {
-            error_completion();
+            error_thread.code = COMPLETION_ERROR;
+            print_error(error_thread);
             exit(1);
         }
         
@@ -193,7 +194,8 @@ void status()
             case 2:
                 if (!count)
                 {   
-                    null_database();
+                    error_thread.code = NULL_DATABASE;
+                    print_error(error_thread);
                     break;
                 }
 
@@ -203,7 +205,8 @@ void status()
                 char *add_ID_str = input_string();
                 if (!string_check(add_ID_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -212,12 +215,14 @@ void status()
                 while(ID_add <= 0 || ID_add > count)
                 {
                     free(add_ID_str);
-                    invalid_ID_input();
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
 
                     add_ID_str = input_string();
                     if (!string_check(add_ID_str, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                     ID_add = atoi(add_ID_str);
@@ -229,19 +234,22 @@ void status()
                 char *element_type = input_string();
                 if (!string_check(element_type, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
                 while(strcmp(element_type, "float") && strcmp(element_type, "complex"))
                 {
                     free(element_type);
-                    invalid_type_input();
+                    error_thread.code = INVALID_ELEMENT_TYPE;
+                    print_error(error_thread);
 
                     element_type = input_string();
                     if (!string_check(element_type, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                 }
@@ -256,19 +264,22 @@ void status()
                     if (!string_check(x_str, database, count))
                     {
                         free(element_type);
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
 
                     while((!strchr(x_str, '.')) || (strchr(x_str, '.') != strrchr(x_str, '.')) || x_str[0] == '.' || x_str[strlen(x_str) - 1] == '.')
                     {
-                        invalid_float_input();
+                        error_thread.code = INVALID_FLOAT;
+                        print_error(error_thread);
 
                         free(x_str);
                         x_str = input_string();
                         if (!string_check(x_str, database, count))
                         {
-                            error_completion();
+                            error_thread.code = COMPLETION_ERROR;
+                            print_error(error_thread);
                             exit(1);
                         }
                     }
@@ -280,19 +291,22 @@ void status()
                     char *y_str = input_string();
                     if (!string_check(y_str, database, count))
                     {
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
 
                     while((!strchr(y_str, '.')) || (strchr(y_str, '.') != strrchr(y_str, '.')) || y_str[0] == '.' || y_str[strlen(y_str) - 1] == '.')
                     {
-                        invalid_float_input();
+                        error_thread.code = INVALID_FLOAT;
+                        print_error(error_thread);
 
                         free(y_str);
                         y_str = input_string();
                         if (!string_check(y_str, database, count))
                         {
-                            error_completion();
+                            error_thread.code = COMPLETION_ERROR;
+                            print_error(error_thread);
                             exit(1);
                         }
                     }
@@ -306,7 +320,8 @@ void status()
                     }
                     else
                     {
-                        wrong_type();
+                        error_thread.code = INVALID_ELEMENT_AND_ARRAY_MATCH;
+                        print_error(error_thread);
                     }
                     
                 }
@@ -319,19 +334,22 @@ void status()
                     char *float_val_str = input_string();
                     if (!string_check(float_val_str, database, count))
                     {
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
 
                     while((!strchr(float_val_str, '.')) || (strchr(float_val_str, '.') != strrchr(float_val_str, '.')) || float_val_str[0] == '.' || float_val_str[strlen(float_val_str) - 1] == '.')
                     {
-                        invalid_float_input();
+                        error_thread.code = INVALID_FLOAT;
+                        print_error(error_thread);
 
                         free(float_val_str);
                         float_val_str = input_string();
                         if (!string_check(float_val_str, database, count))
                         {
-                            error_completion();
+                            error_thread.code = COMPLETION_ERROR;
+                            print_error(error_thread);
                             exit(1);
                         }
                     }
@@ -345,7 +363,8 @@ void status()
                     }
                     else
                     {
-                        wrong_type();
+                        error_thread.code = INVALID_ELEMENT_AND_ARRAY_MATCH;
+                        print_error(error_thread);
                     }
                 }
             break;
@@ -353,7 +372,8 @@ void status()
             case 3:
                 if (!count)
                 {   
-                    null_database();
+                    error_thread.code = NULL_DATABASE;
+                    print_error(error_thread);
                     break;
                 }
                 
@@ -363,7 +383,8 @@ void status()
                 char *delete_ID_str = input_string();
                 if (!string_check(delete_ID_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -372,12 +393,14 @@ void status()
                 while(ID_delete <= 0 || ID_delete > count)
                 {
                     free(delete_ID_str);
-                    invalid_ID_input();
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
 
                     delete_ID_str = input_string();
                     if (!string_check(delete_ID_str, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                     ID_delete = atoi(delete_ID_str);
@@ -392,7 +415,8 @@ void status()
                 char *element_ID_str = input_string();
                 if (!string_check(element_ID_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -401,12 +425,14 @@ void status()
                 while(ID_delete <= 0 || ID_delete > count)
                 {
                     free(element_ID_str);
-                    invalid_ID_input();
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
 
                     element_ID_str = input_string();
                     if (!string_check(element_ID_str, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                     ID_element = atoi(element_ID_str);
@@ -420,7 +446,8 @@ void status()
             case 4:
                 if (!count)
                 {   
-                    null_database();
+                    error_thread.code = NULL_DATABASE;
+                    print_error(error_thread);
                     break;
                 }
 
@@ -430,7 +457,8 @@ void status()
                 char *print_ID_str = input_string();
                 if (!string_check(print_ID_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -439,12 +467,14 @@ void status()
                 while(ID_print <= 0 || ID_print > count)
                 {
                     free(print_ID_str);
-                    invalid_ID_input();
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
 
                     print_ID_str = input_string();
                     if (!string_check(print_ID_str, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                     ID_print = atoi(print_ID_str);
@@ -458,7 +488,8 @@ void status()
             case 5:
                 if (!count)
                 {
-                    null_database();
+                    error_thread.code = NULL_DATABASE;
+                    print_error(error_thread);
                     break;
                 }
                 
@@ -468,7 +499,8 @@ void status()
             case 6:
                 if (!count)
                 {   
-                    null_database();
+                    error_thread.code = NULL_DATABASE;
+                    print_error(error_thread);
                     break;
                 }
 
@@ -478,7 +510,8 @@ void status()
                 char *array1_ID_str = input_string();
                 if (!string_check(array1_ID_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -487,12 +520,14 @@ void status()
                 while(ID_array1 <= 0 || ID_array1 > count)
                 {
                     free(array1_ID_str);
-                    invalid_ID_input();
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
 
                     array1_ID_str = input_string();
                     if (!string_check(array1_ID_str, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                     ID_array1 = atoi(array1_ID_str);
@@ -507,7 +542,8 @@ void status()
                 char *array2_ID_str = input_string();
                 if (!string_check(array2_ID_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -516,12 +552,14 @@ void status()
                 while(ID_array2 <= 0 || ID_array2 > count)
                 {
                     free(array2_ID_str);
-                    invalid_ID_input();
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
 
                     array2_ID_str = input_string();
                     if (!string_check(array2_ID_str, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                     ID_array2 = atoi(array2_ID_str);
@@ -539,13 +577,18 @@ void status()
 
                     cated_array();
                 }
-                else wrong_arrays();
+                else
+                {
+                    error_thread.code = INVALID_ARRAY_AND_ARRAY_MATCH;
+                    print_error(error_thread);
+                };
             break;
 
             case 7:
                 if (!count)
                 {   
-                    null_database();
+                    error_thread.code = NULL_DATABASE;
+                    print_error(error_thread);
                     break;
                 }
 
@@ -555,7 +598,8 @@ void status()
                 char *sort_ID_str = input_string();
                 if (!string_check(sort_ID_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -564,12 +608,14 @@ void status()
                 while(ID_sort <= 0 || ID_sort > count)
                 {
                     free(sort_ID_str);
-                    invalid_ID_input();
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
 
                     sort_ID_str = input_string();
                     if (!string_check(sort_ID_str, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                     ID_sort = atoi(sort_ID_str);
@@ -582,7 +628,8 @@ void status()
                 char *direction = input_string();
                 if (!string_check(direction, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -594,7 +641,8 @@ void status()
                     direction = input_string();
                     if (!string_check(direction, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                 }
@@ -606,7 +654,7 @@ void status()
                     }
                     else
                     {
-                        complex_comparation();
+                        error_thread.error_message;
                     }
                 }
                 else
@@ -628,7 +676,8 @@ void status()
             case 8:
                 if (!count)
                 {   
-                    null_database();
+                    error_thread.code = NULL_DATABASE;
+                    print_error(error_thread);
                     break;
                 }
 
@@ -638,7 +687,8 @@ void status()
                 char *map_ID_str = input_string();
                 if (!string_check(map_ID_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -647,12 +697,14 @@ void status()
                 while(ID_map <= 0 || ID_map > count)
                 {
                     free(map_ID_str);
-                    invalid_ID_input();
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
 
                     map_ID_str = input_string();
                     if (!string_check(map_ID_str, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                     ID_map = atoi(map_ID_str);
@@ -667,7 +719,8 @@ void status()
                 char *map_command_str = input_string();
                 if (!string_check(map_command_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -715,7 +768,8 @@ void status()
             case 9:
                 if (!count)
                 {   
-                    null_database();
+                    error_thread.code = NULL_DATABASE;
+                    print_error(error_thread);
                     break;
                 }
 
@@ -725,7 +779,8 @@ void status()
                 char *where_ID_str = input_string();
                 if (!string_check(where_ID_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 
@@ -734,12 +789,14 @@ void status()
                 while(ID_where <= 0 || ID_where > count)
                 {
                     free(where_ID_str);
-                    invalid_ID_input();
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
 
                     where_ID_str = input_string();
                     if (!string_check(where_ID_str, database, count))
                     {   
-                        error_completion();
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
                         exit(1);
                     }
                     ID_where = atoi(where_ID_str);
@@ -754,7 +811,8 @@ void status()
                 char *where_command_str = input_string();
                 if (!string_check(where_command_str, database, count))
                 {
-                    error_completion();
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
                     exit(1);
                 }
 

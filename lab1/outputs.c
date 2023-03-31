@@ -1,4 +1,5 @@
 #include "outputs.h"
+#include "source.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -37,6 +38,97 @@ void print_where_menu()
     printf("\t\t    \033[40m\033[92m5. FIND VALUES IN SECOND QUADRANT \033[0m\n");
     printf("\t\t    \033[40m\033[92m6. FIND VALUES IN THIRD QUADRANT  \033[0m\n");
     printf("\t\t    \033[40m\033[92m7. FIND VALUES IN FOURTH QUADRANT \033[0m\n");
+}
+
+void print_error()
+{
+    switch (error_thread.code)
+    {
+    case 1:
+        system("clear");
+        error_thread.error_message = "PROGRAM ENDS WITH ERROR";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 2:
+        system("clear");
+        error_thread.error_message = "YOU DON'T HAVE ANY ARRAYS";
+        printf("\t\t\t\033%s[91m\033[0m\n", error_thread.error_message);
+    break;
+
+    case 3:
+        system("clear");
+        error_thread.error_message = "YOU CAN'T DO \"WHERE\" COMPLEX ARRAY";
+        printf("\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 4:
+        system("clear");
+        error_thread.error_message = "INVALID COMMAND";
+        printf("\t\t\t\033[91m%s\033[0m\n");
+    break;
+
+    case 5:
+        error_thread.error_message = "Invalid ID input, try again: ";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 6:
+        system("clear");
+        error_thread.error_message = "YOU CAN'T FIND POSITIVE VALUES IN COMPLEX ARRAY";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 7:
+        system("clear");
+        error_thread.error_message = "YOU CAN'T FIND NEGATIVE VALUES IN COMPLEX ARRAY";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 8:
+        system("clear");
+        error_thread.error_message = "YOU CAN'T FIND INTEGERS IN COMPLEX ARRAY";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 9:
+        system("clear");
+        error_thread.error_message = "YOU CAN'T SORT COMPLEX ARRAY";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 10:
+        error_thread.error_message = "Invalid type input, try again (complex/float): ";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+    
+    case 11:
+        error_thread.error_message = "Invalid float input, try again: ";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 12:
+        system("clear");
+        error_thread.error_message = "ELEMENT TYPE DOESN'T MATCH ARRAY TYPE";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 13:
+        system("clear");
+        error_thread.error_message = "ARRAYS TYPES DOESN'T MATCH";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 14:
+        system("clear");
+        error_thread.error_message = "Invalid direction input, try again (increase/decrease): ";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+    
+    default:
+        return;
+    break;
+    }
 }
 
 void command_input()
@@ -94,89 +186,9 @@ void complex_ypoint_value_input()
     printf("Input element float Y value: ");
 }
 
-void invalid_ID_input()
-{
-    printf("Invalid ID input, try again: ");
-}
-
-void invalid_type_input()
-{
-    printf("Invalid type input, try again (complex/float): ");
-}
-
-void invalid_float_input()
-{
-    printf("Invalid float input, try again: ");
-}
-
-void invalid_command()
-{
-    system("clear");
-    printf("\t\t\t\033[91m     INVALID COMMAND\033[0m\n");
-}
-
-void error_completion()
-{
-    system("clear");
-    printf("\t\t\t\033[91mPROGRAM ENDS WITH ERROR\033[0m\n");
-}
-
-void wrong_type()
-{
-    system("clear");
-    printf("\t\t\033[91m  ELEMENT TYPE DOESN'T MATCH ARRAY TYPE\033[0m\n");
-}
-
-void wrong_arrays()
-{
-    system("clear");
-    printf("\t\t\033[91m        ARRAYS TYPES DOESN'T MATCH \033[0m\n");
-}
-
-void null_database()
-{
-    system("clear");
-    printf("\t\t\t\033[91mYOU DON'T HAVE ANY ARRAYS\033[0m\n");
-}
-
-void complex_comparation()
-{
-    system("clear");
-    printf("\t\t\t\033[91mYOU CAN'T SORT COMPLEX ARRAY\033[0m\n");
-}
-
-void null_array()
-{
-    system("clear");
-    printf("\t\t\033[91m   YOU CAN'T DO \"WHERE\" COMPLEX ARRAY\033[0m\n");
-}
-
-void complex_positive()
-{
-    system("clear");
-    printf("\t\t\033[91mYOU CAN'T FIND POSITIVE VALUES IN COMPLEX ARRAY\033[0m\n");
-}
-
-void complex_negative()
-{
-    system("clear");
-    printf("\t\t\033[91mYOU CAN'T FIND NEGATIVE VALUES IN COMPLEX ARRAY\033[0m\n");
-}
-
-void complex_integers()
-{
-    system("clear");
-    printf("\t\t\033[91m   YOU CAN'T FIND INTEGERS IN COMPLEX ARRAY\033[0m\n");
-}
-
 void input_direction()
 {
     printf("Input direction (increase/decrease): ");
-}
-
-void invalid_direction()
-{
-    printf("Invalid input direction, try again (increase/decrease): ");
 }
 
 void added_array()
