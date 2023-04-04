@@ -1,3 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "source.h"
+#include "testcases.h"
+
+int main()
+{
+    create_add_delete_test();
+
+    element_deleting_set_test();
+
+    command3_test();
+
+    return 0;
+}

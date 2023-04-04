@@ -9,14 +9,15 @@ void print_menu()
 	printf("\t\t\t\033[40m\033[92m1. ADD ARRAY              \033[0m\n");
 	printf("\t\t\t\033[40m\033[92m2. ADD ELEMENT TO ARRAY   \033[0m\n");
     printf("\t\t\t\033[40m\033[92m3. DELETE ARRAY           \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m4. DELETE ELEMENT IN ARRAY\033[0m\n");
-	printf("\t\t\t\033[40m\033[92m5. PRINT ARRAY            \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m6. PRINT ALL ARRAYS       \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m7. CANCATINATE TWO ARRAYS \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m8. SORT ARRAY             \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m9. MAP ARRAY              \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m10. USE WHERE IN ARRAY    \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m11. EXIT                  \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m4. SET ELEMENT IN ARRAY   \033[0m\n");
+	printf("\t\t\t\033[40m\033[92m5. DELETE ELEMENT IN ARRAY\033[0m\n");
+	printf("\t\t\t\033[40m\033[92m6. PRINT ARRAY            \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m7. PRINT ALL ARRAYS       \033[0m\n");
+	printf("\t\t\t\033[40m\033[92m8. CANCATINATE TWO ARRAYS \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m9. SORT ARRAY             \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m10. MAP ARRAY             \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m11. USE WHERE IN ARRAY    \033[0m\n");
+	printf("\t\t\t\033[40m\033[92m12. EXIT                  \033[0m\n");
 }
 
 void print_map_menu()
@@ -59,81 +60,106 @@ void print_error(ERROR error_thread)
 
     case 3:
         system("clear");
-        error_thread.error_message = "YOU CAN'T DO \"WHERE\" COMPLEX ARRAY";
-        printf("\t\t\033[91m%s\033[0m\n", error_thread.error_message);
-    break;
-
-    case 4:
-        system("clear");
         error_thread.error_message = "INVALID COMMAND";
         printf("\t\t\t\033[91m     %s\033[0m\n", error_thread.error_message);
     break;
 
-    case 5:
+    case 4:
         error_thread.error_message = "Invalid ID input, try again: ";
-        printf("\033[91m%s\033[0m\n", error_thread.error_message);
+        printf("\033[91m%s\033[0m", error_thread.error_message);
     break;
 
-    case 6:
+    case 5:
         system("clear");
         error_thread.error_message = "YOU CAN'T FIND POSITIVE VALUES IN COMPLEX ARRAY";
         printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
     break;
 
-    case 7:
+    case 6:
         system("clear");
         error_thread.error_message = "YOU CAN'T FIND NEGATIVE VALUES IN COMPLEX ARRAY";
         printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
     break;
 
-    case 8:
+    case 7:
         system("clear");
         error_thread.error_message = "YOU CAN'T FIND INTEGERS IN COMPLEX ARRAY";
         printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
     break;
 
-    case 9:
+    case 8:
         system("clear");
         error_thread.error_message = "YOU CAN'T SORT COMPLEX ARRAY";
         printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
     break;
 
-    case 10:
-        error_thread.error_message = "Invalid type input, try again (complex/float): ";
-        printf("\033[91m%s\033[0m", error_thread.error_message);
+    case 9:
+        system("clear");
+        error_thread.error_message = "YOU CAN'T FIND POSITIVE VALUES IN EMPTY ARRAY";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
     break;
-    
+
+    case 10:
+        system("clear");
+        error_thread.error_message = "YOU CAN'T FIND NEGATIVE VALUES IN EMPTY ARRAY";
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
     case 11:
-        error_thread.error_message = "Invalid float input, try again: ";
-        printf("\033[91m%s\033[0m", error_thread.error_message);
+        system("clear");
+        error_thread.error_message = "YOU CAN'T FIND IN WHICH QADRANT VALUES IN EMPTY ARRAY";
+        printf("\t\033[91m   %s\033[0m\n", error_thread.error_message);
     break;
 
     case 12:
         system("clear");
-        error_thread.error_message = "ELEMENT TYPE DOESN'T MATCH ARRAY TYPE";
+        error_thread.error_message = "YOU CAN'T FIND INTEGERS IN EMPTY ARRAY";
+        printf("\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 13:
+        system("clear");
+        error_thread.error_message = "YOU CAN'T SORT EMPTY ARRAY";
         printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
     break;
+
+    case 14:
+        error_thread.error_message = "Invalid type input, try again (complex/float): ";
+        printf("\033[91m%s\033[0m", error_thread.error_message);
+    break;
     
-    case 13:
+    case 15:
+        error_thread.error_message = "Invalid float input, try again: ";
+        printf("\033[91m%s\033[0m", error_thread.error_message);
+    break;
+
+    case 16:
+        system("clear");
+        error_thread.error_message = "ELEMENT TYPE DOESN'T MATCH ARRAY TYPE";
+        printf("\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+    break;
+
+    case 17:
         system("clear");
         error_thread.error_message = "ARRAYS TYPES DOESN'T MATCH";
         printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
     break;
 
-    case 14:
+    case 18:
         error_thread.error_message = "Invalid direction input, try again (increase/decrease): ";
         printf("\033[91m%s\033[0m", error_thread.error_message);
     break;
 
-    case 15:
+    case 19:
         system("clear");
-        error_thread.error_message = "YOU CAN'T DELETE ELEMENTS IN VOID ARRAY";
+        error_thread.error_message = "YOU CAN'T DELETE ELEMENTS IN EMPTY ARRAY";
         printf("\t\t\033[91m  %s\033[0m\n", error_thread.error_message);
     break;
-    case 16:
+
+    case 20:
         system("clear");
-        error_thread.error_message = "YOU TRYING TO INPUT STRING THAT IS TOO LONG";
-        printf("\t\033[91m       %s\033[0m\n", error_thread.error_message);
+        error_thread.error_message = "YOU CAN'T SET ELEMENT IN EMPTY ARRAY";
+        printf("\t\t\033[91m  %s\033[0m\n", error_thread.error_message);
     break;
     
     default:
@@ -243,4 +269,10 @@ void completion()
 {
     system("clear");
     printf("\t\t\t\033[92m   PROGRAM COMPLETION\033[0m\n");
+}
+
+void first_passed()
+{
+    system("clear");
+    printf("\t\t\t\033[92m   FIRST TEST PASSED\033[0m\n");
 }

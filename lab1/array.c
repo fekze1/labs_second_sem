@@ -77,6 +77,15 @@ void delete_node_by_id (node_array *array, int id)
     if (!array->array_info->capacity) array->array_info->element_size = 0;
 }
 
+void set_node_by_id (node_array *array, node *element, int id)
+{
+    free(array->data[id]->data);
+    free(array->data[id]);
+    
+    array->data[id] = element;
+
+}
+
 node *create_copy(node *element)
 {
     node *copy;
@@ -376,6 +385,7 @@ void set_array_class(node_array_class **class)
     (*class)->element_size = 0;
     (*class)->add = &add_node;
     (*class)->delete = &delete_array;
+    (*class)->set_by_id = &set_node_by_id;
     (*class)->delete_by_id = &delete_node_by_id;
     (*class)->print = &print_array;
     (*class)->map = &map_array;

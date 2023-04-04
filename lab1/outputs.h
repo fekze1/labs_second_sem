@@ -49,4 +49,6 @@ void added_element();
 
 void completion();
 
+void first_passed();
+
 #endif

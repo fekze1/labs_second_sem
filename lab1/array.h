@@ -1,7 +1,6 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include "source.h"
 #include <stdbool.h>
 
 typedef struct node node;
@@ -23,6 +22,7 @@ typedef struct
     void (*print)(struct node_array *array);
     void (*delete)(struct node_array *array);
     void (*add)(struct node_array *array, node *element);
+    void (*set_by_id)(struct node_array *array, node *element, int id);
     void (*delete_by_id)(struct node_array *array, int id);
     struct node_array *(*map)(struct node_array *array, node *(*func)(node *element));
     struct node_array *(*where)(struct node_array *array, bool (*func)(node *element));
@@ -41,6 +41,8 @@ struct node_array
     node_array_class *array_info;
     node **data;
 };
+
+void set_array_class(node_array_class **class);
 
 node_array *create_array();
 
