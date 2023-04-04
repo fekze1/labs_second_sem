@@ -1,13 +1,15 @@
 #ifndef OUTPUTS_H
 #define OUTPUTS_H
 
+#include "source.h"
+
 void print_menu();
 
 void print_map_menu();
 
 void print_where_menu();
 
-void print_error();
+void print_error(ERROR error_thread);
 
 void command_input();
 
@@ -34,6 +36,8 @@ void complex_ypoint_value_input();
 void input_direction();
 
 void added_array();
+
+void deleted_array();
 
 void mapped_array();
 

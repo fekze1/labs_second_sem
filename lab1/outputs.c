@@ -8,14 +8,15 @@ void print_menu()
     printf("\n\t\t\t\033[40m\033[92m     LIST OF COMMANDS     \033[0m\n");
 	printf("\t\t\t\033[40m\033[92m1. ADD ARRAY              \033[0m\n");
 	printf("\t\t\t\033[40m\033[92m2. ADD ELEMENT TO ARRAY   \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m3. DELETE ELEMENT IN ARRAY\033[0m\n");
-	printf("\t\t\t\033[40m\033[92m4. PRINT ARRAY            \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m5. PRINT ALL ARRAYS       \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m6. CANCATINATE TWO ARRAYS \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m7. SORT ARRAY             \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m8. MAP ARRAY              \033[0m\n");
-    printf("\t\t\t\033[40m\033[92m9. USE WHERE IN ARRAY     \033[0m\n");
-	printf("\t\t\t\033[40m\033[92m10. EXIT                  \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m3. DELETE ARRAY           \033[0m\n");
+	printf("\t\t\t\033[40m\033[92m4. DELETE ELEMENT IN ARRAY\033[0m\n");
+	printf("\t\t\t\033[40m\033[92m5. PRINT ARRAY            \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m6. PRINT ALL ARRAYS       \033[0m\n");
+	printf("\t\t\t\033[40m\033[92m7. CANCATINATE TWO ARRAYS \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m8. SORT ARRAY             \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m9. MAP ARRAY              \033[0m\n");
+    printf("\t\t\t\033[40m\033[92m10. USE WHERE IN ARRAY    \033[0m\n");
+	printf("\t\t\t\033[40m\033[92m11. EXIT                  \033[0m\n");
 }
 
 void print_map_menu()
@@ -40,7 +41,7 @@ void print_where_menu()
     printf("\t\t    \033[40m\033[92m7. FIND VALUES IN FOURTH QUADRANT \033[0m\n");
 }
 
-void print_error()
+void print_error(ERROR error_thread)
 {
     switch (error_thread.code)
     {
@@ -53,7 +54,7 @@ void print_error()
     case 2:
         system("clear");
         error_thread.error_message = "YOU DON'T HAVE ANY ARRAYS";
-        printf("\t\t\t\033%s[91m\033[0m\n", error_thread.error_message);
+        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
     break;
 
     case 3:
@@ -65,12 +66,12 @@ void print_error()
     case 4:
         system("clear");
         error_thread.error_message = "INVALID COMMAND";
-        printf("\t\t\t\033[91m%s\033[0m\n");
+        printf("\t\t\t\033[91m     %s\033[0m\n", error_thread.error_message);
     break;
 
     case 5:
         error_thread.error_message = "Invalid ID input, try again: ";
-        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+        printf("\033[91m%s\033[0m\n", error_thread.error_message);
     break;
 
     case 6:
@@ -99,12 +100,12 @@ void print_error()
 
     case 10:
         error_thread.error_message = "Invalid type input, try again (complex/float): ";
-        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+        printf("\033[91m%s\033[0m", error_thread.error_message);
     break;
     
     case 11:
         error_thread.error_message = "Invalid float input, try again: ";
-        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+        printf("\033[91m%s\033[0m", error_thread.error_message);
     break;
 
     case 12:
@@ -112,7 +113,7 @@ void print_error()
         error_thread.error_message = "ELEMENT TYPE DOESN'T MATCH ARRAY TYPE";
         printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
     break;
-
+    
     case 13:
         system("clear");
         error_thread.error_message = "ARRAYS TYPES DOESN'T MATCH";
@@ -120,9 +121,19 @@ void print_error()
     break;
 
     case 14:
-        system("clear");
         error_thread.error_message = "Invalid direction input, try again (increase/decrease): ";
-        printf("\t\t\t\033[91m%s\033[0m\n", error_thread.error_message);
+        printf("\033[91m%s\033[0m", error_thread.error_message);
+    break;
+
+    case 15:
+        system("clear");
+        error_thread.error_message = "YOU CAN'T DELETE ELEMENTS IN VOID ARRAY";
+        printf("\t\t\033[91m  %s\033[0m\n", error_thread.error_message);
+    break;
+    case 16:
+        system("clear");
+        error_thread.error_message = "YOU TRYING TO INPUT STRING THAT IS TOO LONG";
+        printf("\t\033[91m       %s\033[0m\n", error_thread.error_message);
     break;
     
     default:
@@ -201,6 +212,12 @@ void mapped_array()
 {
     system("clear");
     printf("\t\t\t\033[92m ARRAY SUCCESFULLY MAPPED\033[0m\n");
+}
+
+void deleted_array()
+{
+    system("clear");
+    printf("\t\t\t\033[92m ARRAY SUCCESFULLY DELETED\033[0m\n");
 }
 
 void cated_array()

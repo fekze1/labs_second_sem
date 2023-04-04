@@ -8,7 +8,7 @@ typedef enum code
     NO_ERROR = 0,
     COMPLETION_ERROR,
     NULL_DATABASE,
-    NULL_ARRAY,
+    COMPLEX_WHERE,
     INVALID_COMMAND,
     INVALID_ID,
     INVALID_ARRAY_TYPE_POS,
@@ -20,6 +20,8 @@ typedef enum code
     INVALID_ELEMENT_AND_ARRAY_MATCH,
     INVALID_ARRAY_AND_ARRAY_MATCH,
     INVALID_DIRECTION,
+    NULL_ARRAY_DELETE,
+    BUFFER_OVERFLOW
 }error_code;
 
 typedef struct thread

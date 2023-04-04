@@ -32,7 +32,7 @@ char *input_string()
 				length++;
                 string = (char *)realloc(string, length * sizeof(char));
                 string[length - 1] = currentChar;
-			} 
+			}
 		}
 		
 		length++;
@@ -49,9 +49,17 @@ char *input_string()
 }
 
 float str_to_float(char *string)
-{
+{      
+    bool isNegative = false;
+
+    if (string[0] == '-')
+    {
+        *string++;
+        isNegative = true;
+    }
     float number = 0;
     int point_index = 0;
+
     for (int i = 0; i < strlen(string); i++)
     {
         if (string[i] == '.')
@@ -85,6 +93,7 @@ float str_to_float(char *string)
     number += decimal * pow(10, -decimal_length + 1) * 1.0000001;
     free(decimal_part);
 
+    if (isNegative) return -number;
     return number;
 }
 
@@ -108,12 +117,27 @@ void delete_database(node_array **database, int count)
 {
     for (int i = 0; i < count; i++)
     {
-        printf("test\n");
         database[i]->array_info->delete(database[i]);
     }
     printf("\n");
 
     free(database);
+}
+
+node_array **delete_array_in_database(node_array **database, int *count, int array_id)
+{
+    database[array_id]->array_info->delete(database[array_id]);
+    (*count)--;
+    
+
+    for (int i = array_id; i < *count; i++)
+    {
+        database[i] = database[i + 1];
+    }
+
+    database = (node_array **)realloc(database, *count * sizeof(node_array *));
+
+    return database;
 }
 
 void print_database(node_array **database, int count)
@@ -138,7 +162,7 @@ void print_database(node_array **database, int count)
                 printf("\tNO TYPE\n");
             break;
         }
-        printf("\tCOUNT: %d\n", database[i]->array_info->count);
+        printf("\tCOUNT: %d\n\n", database[i]->array_info->count);
     }
 }
 
@@ -168,7 +192,7 @@ void status()
     int command = 0;
 
     system("clear");
-    while (command != 10)
+    while (command != 11)
     {
         print_menu();
 	    command_input();
@@ -204,7 +228,7 @@ void status()
 
                 char *add_ID_str = input_string();
                 if (!string_check(add_ID_str, database, count))
-                {
+                {   
                     error_thread.code = COMPLETION_ERROR;
                     print_error(error_thread);
                     exit(1);
@@ -376,6 +400,48 @@ void status()
                     print_error(error_thread);
                     break;
                 }
+
+                print_database(database, count);
+                ID_input();
+
+                char *delete_array_ID_str = input_string();
+                if (!string_check(delete_array_ID_str, database, count))
+                {   
+                    error_thread.code = COMPLETION_ERROR;
+                    print_error(error_thread);
+                    exit(1);
+                }
+
+                int ID_array_delete = atoi(delete_array_ID_str);
+
+                while(ID_array_delete <= 0 || ID_array_delete > count)
+                {
+                    free(delete_array_ID_str);
+                    error_thread.code = INVALID_ID;
+                    print_error(error_thread);
+
+                    delete_array_ID_str = input_string();
+                    if (!string_check(delete_array_ID_str, database, count))
+                    {   
+                        error_thread.code = COMPLETION_ERROR;
+                        print_error(error_thread);
+                        exit(1);
+                    }
+                    ID_array_delete = atoi(delete_array_ID_str);
+                }
+                free(delete_array_ID_str);
+
+                database = delete_array_in_database(database, &count, ID_array_delete - 1);
+                deleted_array();
+            break;
+
+            case 4:
+                if (!count)
+                {   
+                    error_thread.code = NULL_DATABASE;
+                    print_error(error_thread);
+                    break;
+                }
                 
                 print_database(database, count);
                 ID_input();
@@ -410,6 +476,14 @@ void status()
                 
                 system("clear");
                 database[ID_delete - 1]->array_info->print(database[ID_delete - 1]);
+
+                if (!database[ID_delete - 1]->array_info->capacity)
+                {
+                    error_thread.code = NULL_ARRAY_DELETE;
+                    print_error(error_thread);
+                    break;
+                }
+
                 element_ID_input();
 
                 char *element_ID_str = input_string();
@@ -443,7 +517,7 @@ void status()
                 database[ID_element - 1]->array_info->delete_by_id(database[ID_delete - 1], ID_element - 1);
             break;
 
-            case 4:
+            case 5:
                 if (!count)
                 {   
                     error_thread.code = NULL_DATABASE;
@@ -485,7 +559,7 @@ void status()
                 database[ID_print - 1]->array_info->print(database[ID_print - 1]);
             break;
 
-            case 5:
+            case 6:
                 if (!count)
                 {
                     error_thread.code = NULL_DATABASE;
@@ -496,7 +570,7 @@ void status()
                 print_database(database, count);
             break;
 
-            case 6:
+            case 7:
                 if (!count)
                 {   
                     error_thread.code = NULL_DATABASE;
@@ -584,7 +658,7 @@ void status()
                 };
             break;
 
-            case 7:
+            case 8:
                 if (!count)
                 {   
                     error_thread.code = NULL_DATABASE;
@@ -636,7 +710,9 @@ void status()
                 while(strcmp(direction, "increase") && strcmp(direction, "decrease"))
                 {
                     free(direction);
-                    invalid_direction();
+                    
+                    error_thread.code = INVALID_DIRECTION;
+                    print_error(error_thread);
 
                     direction = input_string();
                     if (!string_check(direction, database, count))
@@ -654,7 +730,8 @@ void status()
                     }
                     else
                     {
-                        error_thread.error_message;
+                        error_thread.code = INVALID_ARRAY_TYPE_SORT;
+                        print_error(error_thread);
                     }
                 }
                 else
@@ -665,7 +742,8 @@ void status()
                     }
                     else
                     {
-                        complex_comparation();
+                        error_thread.code = INVALID_ARRAY_TYPE_SORT;
+                        print_error(error_thread);
                     }
                 }
 
@@ -673,7 +751,7 @@ void status()
 
             break;
 
-            case 8:
+            case 9:
                 if (!count)
                 {   
                     error_thread.code = NULL_DATABASE;
@@ -735,8 +813,6 @@ void status()
                     database[count - 1]->array_info->delete(database[count - 1]);
 
                     database[count - 1] = database[ID_map - 1]->array_info->map(database[ID_map - 1], abs_val_map);
-
-                    mapped_array();
                 break;
 
                 case 2:
@@ -745,8 +821,6 @@ void status()
                     database[count - 1]->array_info->delete(database[count - 1]);
 
                     database[count - 1] = database[ID_map - 1]->array_info->map(database[ID_map - 1], double_val_map);
-
-                    mapped_array();
                 break;
 
                 case 3:
@@ -755,17 +829,12 @@ void status()
                     database[count - 1]->array_info->delete(database[count - 1]);
 
                     database[count - 1] = database[ID_map - 1]->array_info->map(database[ID_map - 1], square_val_map);
-
-                    mapped_array();
-                break;
-                
-                default:
                 break;
                 }
-
+                mapped_array();
             break;
 
-            case 9:
+            case 10:
                 if (!count)
                 {   
                     error_thread.code = NULL_DATABASE;
@@ -833,11 +902,13 @@ void status()
                     }
                     else if (database[ID_where - 1]->array_info->element_size == (int)sizeof(complex))
                     {
-                        complex_positive();
+                        error_thread.code = INVALID_ARRAY_TYPE_POS;
+                        print_error(error_thread);
                     }
                     else
                     {
-                        null_array();
+                        error_thread.code = COMPLEX_WHERE;
+                        print_error(error_thread);
                     }
                 break;
 
@@ -854,11 +925,13 @@ void status()
                     }
                     else if (database[ID_where - 1]->array_info->element_size == (int)sizeof(complex))
                     {
-                        complex_negative();
+                        error_thread.code = INVALID_ARRAY_TYPE_NEG;
+                        print_error(error_thread);
                     }
                     else
                     {
-                        null_array();
+                        error_thread.code = COMPLEX_WHERE;
+                        print_error(error_thread);
                     }
                 break;
 
@@ -875,11 +948,13 @@ void status()
                     }
                     else if (database[ID_where - 1]->array_info->element_size == (int)sizeof(complex))
                     {
-                        complex_integers();
+                        error_thread.code = INVALID_ARRAY_TYPE_INT;
+                        print_error(error_thread);
                     }
                     else
                     {
-                        null_array();
+                        error_thread.code = COMPLEX_WHERE;
+                        print_error(error_thread);
                     }
                 break;
 
@@ -924,18 +999,21 @@ void status()
                 break;
                 
                 default:
+                    error_thread.code = INVALID_COMMAND;
+                    print_error(error_thread);
                 break;
                 }
                 free(where_command_str);
             break;
 
-            case 10:
+            case 11:
                 delete_database(database, count);
                 completion();
             break;
 
             default:
-                invalid_command();
+                error_thread.code = INVALID_COMMAND;
+                print_error(error_thread);
             break;
         }
         
