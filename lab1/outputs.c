@@ -276,3 +276,13 @@ void first_passed()
     system("clear");
     printf("\t\t\t\033[92m   FIRST TEST PASSED\033[0m\n");
 }
+
+void second_passed()
+{
+    printf("\t\t\t\033[92m   SECOND TEST PASSED\033[0m\n");
+}
+
+void third_passed()
+{
+    printf("\t\t\t\033[92m   THIRD TEST PASSED\033[0m\n");
+}

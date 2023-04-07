@@ -51,4 +51,8 @@ void completion();
 
 void first_passed();
 
+void second_passed();
+
+void third_passed();
+
 #endif

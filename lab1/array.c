@@ -131,7 +131,7 @@ node_array *where_array(node_array *array, bool (*func)(node *element))
         {
             node *element_copy = create_copy(array->data[i]);
             
-            if (func(element_copy)) new_array->array_info->add(new_array, element_copy);
+            new_array->array_info->add(new_array, element_copy);
         }
     }
 
@@ -205,27 +205,6 @@ void comb_sort(node_array *array, int (*comparator)(node *element1, node *elemen
 			}
 		}
 	}
-}
-
-bool test_func(node *element)
-{
-    switch (element->node_info->size)
-    {
-        case sizeof(complex):
-            if (((complex *)element->data)->x_point + ((complex *)element->data)->y_point > 10)
-            {
-                return true;
-            }
-            return false;
-        break;
-        case sizeof(float):
-            if (*(float *)element->data > 1)
-            {
-                return true;
-            }
-            return false;
-        break;
-    }
 }
 
 node *abs_val_map(node *element)

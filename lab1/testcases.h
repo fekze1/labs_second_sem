@@ -3,8 +3,8 @@
 
 void create_add_delete_test();
 
-void element_deleting_set_test();
+void element_delete_set_test();
 
-void command3_test();
+void cat_sort_map_where_test();
 
 #endif

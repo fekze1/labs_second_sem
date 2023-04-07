@@ -4,9 +4,9 @@ int main()
 {
     create_add_delete_test();
 
-    element_deleting_set_test();
+    element_delete_set_test();
 
-    command3_test();
+    cat_sort_map_where_test();
 
     return 0;
 }
