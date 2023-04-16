@@ -1,4 +1,5 @@
 #include "testcases.h"
+#include <stdio.h>
 
 int main()
 {
@@ -8,5 +9,7 @@ int main()
 
     cat_sort_map_where_test();
 
+
+	printf("ALL TESTS PASSED\n");
     return 0;
 }
